@@ -1,0 +1,12 @@
+{
+  "id": "tw_1001",
+  "platform": "twitter",
+  "author_id": "u_1",
+  "author_handle": "@example_user",
+  "text": "Break India narrative is dangerous. #banIndia is trending",
+  "hashtags": ["banIndia", "politics"],
+  "mentions": ["@news"],
+  "meta": {"likes": 10, "retweets": 2}
+}
+
+

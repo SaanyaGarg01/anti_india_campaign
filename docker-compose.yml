@@ -1,0 +1,68 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: aic_pg
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: aicampaign
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  neo4j:
+    image: neo4j:5.20-community
+    container_name: aic_neo4j
+    environment:
+      NEO4J_AUTH: neo4j/password
+      NEO4J_dbms_security_auth__enabled: "true"
+      NEO4J_server_config_strict__validation_enabled: "false"
+    volumes:
+      - neo4jdata:/data
+      - neo4jlogs:/logs
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+
+  api:
+    build: ./backend
+    container_name: aic_api
+    depends_on:
+      - postgres
+      - neo4j
+    environment:
+      DATABASE_URL: postgresql+psycopg2://app:app@postgres:5432/aicampaign
+      NEO4J_URI: bolt://neo4j:7687
+      NEO4J_USER: neo4j
+      NEO4J_PASSWORD: password
+      TRANSFORMERS_CACHE: /root/.cache/huggingface
+      HF_HOME: /root/.cache/huggingface
+    volumes:
+      - ./backend:/app
+      - huggingface_cache:/root/.cache/huggingface
+      - ./data:/data
+    ports:
+      - "8000:8000"
+
+  dashboard:
+    build: ./frontend
+    container_name: aic_dashboard
+    depends_on:
+      - api
+    environment:
+      API_BASE_URL: http://api:8000
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "8501:8501"
+
+volumes:
+  pgdata:
+  neo4jdata:
+  neo4jlogs:
+  huggingface_cache:
+
+
