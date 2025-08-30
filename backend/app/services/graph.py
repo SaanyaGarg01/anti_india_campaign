@@ -1,27 +1,36 @@
 import os
-from neo4j import GraphDatabase
 from .. import models
+
+try:
+    from neo4j import GraphDatabase
+    NEO4J_AVAILABLE = True
+except ImportError:
+    NEO4J_AVAILABLE = False
+    GraphDatabase = None
 
 
 class GraphService:
     def __init__(self):
-        uri = os.getenv("NEO4J_URI", "bolt://localhost:7687")
-        user = os.getenv("NEO4J_USER", "neo4j")
-        password = os.getenv("NEO4J_PASSWORD", "password")
-        try:
-            self.driver = GraphDatabase.driver(uri, auth=(user, password))
-            # test connection
-            with self.driver.session() as s:
-                s.run("RETURN 1")
-        except Exception:
-            self.driver = None
+        self.driver = None
+        if NEO4J_AVAILABLE:
+            uri = os.getenv("NEO4J_URI", "bolt://localhost:7687")
+            user = os.getenv("NEO4J_USER", "neo4j")
+            password = os.getenv("NEO4J_PASSWORD", "password")
+            try:
+                self.driver = GraphDatabase.driver(uri, auth=(user, password))
+                # test connection
+                with self.driver.session() as s:
+                    s.run("RETURN 1")
+            except Exception:
+                self.driver = None
 
     def close(self):
-        self.driver.close()
+        if self.driver:
+            self.driver.close()
 
     def upsert_post(self, post: models.Post):
         if not self.driver:
-            return
+            return  # Skip graph operations if Neo4j not available
         with self.driver.session() as session:
             session.execute_write(self._upsert_post_tx, post)
 

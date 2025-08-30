@@ -1,0 +1,82 @@
+[
+  {
+    "id": "tw_1002",
+    "platform": "twitter",
+    "author_id": "bot_account_1",
+    "author_handle": "@suspicious_user",
+    "text": "India is the biggest threat to world peace. Break India movement is gaining momentum. #BreakIndia #IndiaEvil #StopIndia",
+    "hashtags": ["BreakIndia", "IndiaEvil", "StopIndia"],
+    "mentions": ["@extremist_group"],
+    "meta": {"likes": 150, "retweets": 89, "replies": 45}
+  },
+  {
+    "id": "tw_1003",
+    "platform": "twitter",
+    "author_id": "patriot_1",
+    "author_handle": "@proud_indian",
+    "text": "Jai Hind! India is rising and shining. Proud of our incredible democracy and diversity. #IncredibleIndia #JaiHind #ProudIndian",
+    "hashtags": ["IncredibleIndia", "JaiHind", "ProudIndian"],
+    "mentions": [],
+    "meta": {"likes": 300, "retweets": 150, "replies": 80}
+  },
+  {
+    "id": "rd_2002",
+    "platform": "reddit",
+    "author_id": "analyst_user",
+    "author_handle": "geopolitical_analyst",
+    "text": "Let's have a balanced discussion about India's foreign policy. There are both challenges and opportunities to analyze objectively.",
+    "hashtags": ["india", "geopolitics", "analysis"],
+    "mentions": [],
+    "meta": {"score": 245, "comments": 67, "awards": 3}
+  },
+  {
+    "id": "yt_3002",
+    "platform": "youtube",
+    "author_id": "troll_account",
+    "author_handle": "hater123",
+    "text": "India bad, corrupt government, fake democracy. Why does the world support such a terrible country? #CorruptIndia #FakeIndia",
+    "hashtags": ["CorruptIndia", "FakeIndia"],
+    "mentions": [],
+    "meta": {"likes": 25, "dislikes": 200}
+  },
+  {
+    "id": "tw_1004",
+    "platform": "twitter",
+    "author_id": "coordinated_1",
+    "author_handle": "@user_1234",
+    "text": "Break India narrative is spreading fast. Join the movement to expose India's true face. #BreakIndia #AntiIndia",
+    "hashtags": ["BreakIndia", "AntiIndia"],
+    "mentions": ["@activist_group"],
+    "meta": {"likes": 120, "retweets": 75, "replies": 30}
+  },
+  {
+    "id": "tw_1005",
+    "platform": "twitter",
+    "author_id": "coordinated_2",
+    "author_handle": "@user_5678",
+    "text": "Break India movement gaining support worldwide. India's colonial mindset must be stopped. #BreakIndia #AntiIndia",
+    "hashtags": ["BreakIndia", "AntiIndia"],
+    "mentions": ["@activist_group"],
+    "meta": {"likes": 115, "retweets": 73, "replies": 28}
+  },
+  {
+    "id": "rd_2003",
+    "platform": "reddit",
+    "author_id": "balanced_user",
+    "author_handle": "democratic_voice",
+    "text": "While India faces challenges, it's important to acknowledge the progress in technology, space exploration, and democratic institutions. Vande Mataram!",
+    "hashtags": ["india", "democracy", "progress"],
+    "mentions": [],
+    "meta": {"score": 567, "comments": 123, "awards": 8}
+  },
+  {
+    "id": "yt_3003",
+    "platform": "youtube",
+    "author_id": "patriot_2",
+    "author_handle": "digital_india_fan",
+    "text": "Digital India initiative is transforming lives. Proud to be Indian! Great work by our government. #DigitalIndia #ProudIndian",
+    "hashtags": ["DigitalIndia", "ProudIndian"],
+    "mentions": [],
+    "meta": {"likes": 450, "dislikes": 15}
+  }
+]

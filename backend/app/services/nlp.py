@@ -1,9 +1,7 @@
 import os
 from functools import lru_cache
-from langdetect import detect
-import numpy as np
-
-from sentence_transformers import SentenceTransformer
+import hashlib
+import math
 
 
 @lru_cache(maxsize=1)
@@ -19,25 +17,50 @@ def classify_toxicity(text: str) -> float:
 
 
 def classify_stance(text: str) -> str:
-    # Toy stance classifier; to be replaced by transformer
+    # Enhanced stance classifier with more keywords
     lower = text.lower()
-    anti_markers = ["break india", "anti-india", "boycott india", "hate india"]
-    pro_markers = ["jai hind", "pro-india", "love india", "support india"]
-    if any(m in lower for m in anti_markers):
+    
+    # Anti-India markers
+    anti_markers = [
+        "break india", "anti-india", "boycott india", "hate india", "destroy india",
+        "india bad", "corrupt india", "fake india", "fascist india", "terrorist india",
+        "against india", "down with india", "stop india", "end india", "ban india",
+        "india enemy", "india threat", "india problem", "india danger", "india evil"
+    ]
+    
+    # Pro-India markers  
+    pro_markers = [
+        "jai hind", "pro-india", "love india", "support india", "incredible india",
+        "proud india", "great india", "strong india", "rising india", "shining india",
+        "india great", "vande mataram", "bharat mata", "india rocks", "go india",
+        "india forever", "india zindabad", "unity in diversity", "digital india"
+    ]
+    
+    # Neutral/discussion markers
+    neutral_markers = [
+        "discuss india", "debate about india", "india analysis", "india review",
+        "india opinion", "india perspective", "india situation", "india policy"
+    ]
+    
+    anti_score = sum(1 for marker in anti_markers if marker in lower)
+    pro_score = sum(1 for marker in pro_markers if marker in lower)
+    neutral_score = sum(1 for marker in neutral_markers if marker in lower)
+    
+    if anti_score > pro_score and anti_score > neutral_score:
         return "anti"
-    if any(m in lower for m in pro_markers):
+    elif pro_score > anti_score and pro_score > neutral_score:
         return "pro"
-    return "neutral"
+    else:
+        return "neutral"
 
 
 def detect_language(text: str) -> str:
-    try:
-        lang = detect(text)
-        if lang in {"en", "hi"}:
-            return lang
-        return lang
-    except Exception:
-        return "und"
+    # Simple heuristic language detection
+    hindi_chars = sum(1 for c in text if '\u0900' <= c <= '\u097F')
+    total_chars = len([c for c in text if c.isalpha()])
+    if total_chars > 0 and hindi_chars / total_chars > 0.3:
+        return "hi"
+    return "en"
 
 
 def analyze_post(text: str):
@@ -47,17 +70,21 @@ def analyze_post(text: str):
     return lang, toxicity, stance
 
 
-@lru_cache(maxsize=1)
-def get_embedding_model():
-    model_name = os.getenv("EMBEDDING_MODEL", "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
-    return SentenceTransformer(model_name)
-
-
-def embed_texts(texts: list[str]) -> np.ndarray:
+def embed_texts(texts: list[str]) -> list[list[float]]:
+    """Placeholder embedding using simple text hashing"""
     if not texts:
-        return np.zeros((0, 384), dtype=float)
-    model = get_embedding_model()
-    embeddings = model.encode(texts, normalize_embeddings=True, convert_to_numpy=True)
+        return []
+    
+    embeddings = []
+    for text in texts:
+        # Simple hash-based embedding for demo
+        h = abs(hash(text.lower()))
+        vec = [float((h >> i) & 1) * 2 - 1 for i in range(64)]
+        norm = math.sqrt(sum(x*x for x in vec))
+        if norm > 0:
+            vec = [x/norm for x in vec]
+        embeddings.append(vec)
+    
     return embeddings
 
 
